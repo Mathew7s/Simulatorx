@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud CoE Strategy Lab — UBS Card Center AG</title>
+<style>
+  :root{
+    --ink:#0A1628;
+    --ink-soft:#33415c;
+    --paper:#F5F4F1;
+    --panel:#FFFFFF;
+    --rule:#D8D5CC;
+    --red:#EC0016;
+    --red-deep:#A2000F;
+    --gold:#B8860B;
+    --mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --serif: 'Iowan Old Style','Georgia', 'Times New Roman', serif;
+    --sans: 'Helvetica Neue', Arial, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);}
+  .ticker{background:var(--ink);color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:7px 0;overflow:hidden;white-space:nowrap;}
+  .ticker span{display:inline-block;padding-left:100%;animation:scroll 32s linear infinite;}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
+  header{max-width:1080px;margin:0 auto;padding:64px 28px 36px;border-bottom:1px solid var(--rule);}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--red-deep);margin:0 0 14px;}
+  h1{font-family:var(--serif);font-weight:400;font-size:48px;line-height:1.08;margin:0 0 18px;letter-spacing:-.01em;}
+  h1 em{font-style:italic;color:var(--red);}
+  .lede{font-size:18px;line-height:1.6;color:var(--ink-soft);max-width:680px;margin:0 0 8px;}
+  .byline{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:22px;}
+  main{max-width:1080px;margin:0 auto;padding:48px 28px 80px;}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+  .card{background:var(--panel);padding:34px 28px 28px;display:flex;flex-direction:column;min-height:420px;position:relative;transition:background .15s;}
+  .card:hover{background:#FFFDF8;}
+  .num{font-family:var(--serif);font-size:64px;color:var(--rule);line-height:1;margin-bottom:8px;font-style:italic;}
+  .card h2{font-family:var(--serif);font-size:24px;line-height:1.2;margin:0 0 12px;}
+  .card p{font-size:14.5px;line-height:1.55;color:var(--ink-soft);margin:0 0 18px;flex-grow:1;}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px;}
+  .tag{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;border:1px solid var(--rule);padding:3px 8px;color:var(--ink-soft);}
+  .launch{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--red);padding-bottom:4px;width:fit-content;transition:color .15s,border-color .15s;}
+  .launch:hover{color:var(--red);}
+  .launch:after{content:'→';transition:transform .15s;}
+  .launch:hover:after{transform:translateX(4px);}
+  section.context{margin-top:64px;border-top:1px solid var(--rule);padding-top:40px;display:grid;grid-template-columns:1fr 1.6fr;gap:48px;}
+  .context h3{font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--red-deep);margin:0 0 16px;}
+  .context p,.context li{font-size:14.5px;line-height:1.65;color:var(--ink-soft);}
+  .context ul{margin:0;padding-left:18px;}
+  .context li{margin-bottom:8px;}
+  footer{max-width:1080px;margin:0 auto;padding:30px 28px 60px;font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--rule);}
+  @media(max-width:860px){.grid{grid-template-columns:1fr;} section.context{grid-template-columns:1fr;} h1{font-size:34px;}}
+</style>
+</head>
+<body>
+
+<div class="ticker"><span>AZURE LANDING ZONE · FINMA CIRC 2018/3 · PCI-DSS 4.0 · DORA RTS · MULTI-CLOUD GOVERNANCE · FINOPS · CARD PROCESSING MODERNISATION · ISO 20022 · UBS GROUP CLOUD STRATEGY ALIGNMENT &nbsp;&nbsp;&nbsp; AZURE LANDING ZONE · FINMA CIRC 2018/3 · PCI-DSS 4.0 · DORA RTS · MULTI-CLOUD GOVERNANCE · FINOPS · CARD PROCESSING MODERNISATION · ISO 20022 · UBS GROUP CLOUD STRATEGY ALIGNMENT</span></div>
+
+<header>
+  <p class="eyebrow">UBS Card Center AG · Head Cloud Center of Excellence · Job Ref 339440BR</p>
+  <h1>Cloud CoE <em>Strategy Lab</em></h1>
+  <p class="lede">Three working simulators that pressure-test the strategic choices behind a Cloud Center of Excellence for card processing on Microsoft Azure — built to accompany Santosh John Mathew's Strategic Vision submission and aligned to UBS Group's enterprise cloud strategy.</p>
+  <p class="byline">PREPARED FOR THE GLATTBRUGG IT ORGANISATION — PERSONAL &amp; CORPORATE BANKING</p>
+</header>
+
+<main>
+  <div class="grid">
+
+    <div class="card">
+      <div class="num">01</div>
+      <h2>Cloud CoE Maturity &amp; Governance</h2>
+      <p>Allocate a finite build-out budget across governance, architecture, security and engineering capability. Watch the PCI-DSS / FINMA / DORA compliance gate timeline shift in real time, and see where under-investment leaves audit exposure.</p>
+      <div class="tags"><span class="tag">Governance</span><span class="tag">Compliance gates</span><span class="tag">Team roadmap</span></div>
+      <a class="launch" href="01-coe-maturity-governance.html">Open simulator</a>
+    </div>
+
+    <div class="card">
+      <div class="num">02</div>
+      <h2>Migration &amp; FinOps Transformation</h2>
+      <p>Set your 6R migration mix for the card processing estate, tune FinOps optimisation levers, and read the resulting 3-year TCO, NPV curve and break-even point against the do-nothing baseline.</p>
+      <div class="tags"><span class="tag">6R strategy</span><span class="tag">3-yr TCO / NPV</span><span class="tag">Cost sensitivity</span></div>
+      <a class="launch" href="02-migration-finops.html">Open simulator</a>
+    </div>
+
+    <div class="card">
+      <div class="num">03</div>
+      <h2>Emerging Payments &amp; Positioning</h2>
+      <p>Trade off innovation velocity (open banking, digital wallets, CBDC/tokenised rails) against legacy stability, and benchmark UBS Card Center's time-to-market against neobanks and processor-fintechs.</p>
+      <div class="tags"><span class="tag">Innovation velocity</span><span class="tag">Fintech benchmark</span><span class="tag">Competitive positioning</span></div>
+      <a class="launch" href="03-emerging-payments-positioning.html">Open simulator</a>
+    </div>
+
+  </div>
+
+  <section class="context">
+    <div>
+      <h3>Why these three</h3>
+      <p>The Head Cloud CoE mandate spans governance, financial stewardship, and competitive strategy simultaneously. Each simulator isolates one axis of that mandate so the trade-offs — and their second-order effects on cost, compliance, and time-to-market — become visible and arguable rather than asserted.</p>
+    </div>
+    <div>
+      <h3>Alignment to UBS Group cloud strategy</h3>
+      <ul>
+        <li><strong>Azure-first, multi-cloud capable</strong> — models default to Microsoft Azure as the primary hyperscaler for UBS Card Center AG, consistent with UBS Group's enterprise landing zone strategy, with AWS/private cloud treated as governed exceptions rather than parallel default paths.</li>
+        <li><strong>Shared responsibility &amp; group governance inheritance</strong> — the CoE is modelled as extending UBS Group's cloud control framework (architecture standards, security baselines, FinOps reporting) into the regulated card-issuing entity, not building a parallel one.</li>
+        <li><strong>FINMA / PCI-DSS / DORA as hard gates</strong> — compliance is modelled as a release gate, not a checkbox: under-resourcing security or architecture capability visibly delays go-live readiness.</li>
+        <li><strong>Product Operating Model &amp; Platform Engineering</strong> — team and velocity assumptions reflect the agile-at-scale, self-service platform approach described in the accompanying vision document, rather than a centralised ticket-driven IT model.</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  ALL FIGURES ARE ILLUSTRATIVE STRATEGIC MODELLING TOOLS, NOT UBS-DISCLOSED FINANCIALS. BUILT FOR INTERVIEW / APPLICATION PURPOSES. &nbsp;·&nbsp; SANTOSH JOHN MATHEW &nbsp;·&nbsp; 2026
+</footer>
+
+</body>
+</html>
