@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Migration &amp; FinOps Simulator — UBS Card Center AG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0A1628; --ink-soft:#33415c; --paper:#F5F4F1; --panel:#FFFFFF; --rule:#D8D5CC;
+  --red:#EC0016; --red-deep:#A2000F; --green:#1F7A4D; --amber:#B8860B;
+  --mono:'IBM Plex Mono','Courier New',monospace; --serif:'Iowan Old Style','Georgia',serif; --sans:'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);}
+a.back{position:fixed;top:18px;left:18px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-decoration:none;z-index:50;background:var(--paper);padding:6px 10px;border:1px solid var(--rule);}
+a.back:hover{color:var(--red);}
+header{max-width:1180px;margin:0 auto;padding:70px 28px 28px;border-bottom:1px solid var(--rule);}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-deep);margin:0 0 12px;}
+h1{font-family:var(--serif);font-size:38px;font-weight:400;margin:0 0 12px;}
+.lede{font-size:15.5px;color:var(--ink-soft);max-width:780px;line-height:1.6;margin:0;}
+main{max-width:1180px;margin:0 auto;padding:36px 28px 80px;display:grid;grid-template-columns:340px 1fr;gap:32px;}
+.panel{background:var(--panel);border:1px solid var(--rule);padding:24px;}
+.panel h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:10px;}
+.ctrl{margin-bottom:20px;}
+.ctrl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px;}
+.ctrl label .val{font-family:var(--mono);color:var(--red-deep);font-weight:400;}
+.ctrl .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:6px;line-height:1.4;}
+input[type=range]{width:100%;accent-color:var(--red);}
+.section-title{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.08em;margin:22px 0 10px;border-top:1px dashed var(--rule);padding-top:18px;}
+.sixR{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+.sixR .ctrl{margin-bottom:8px;}
+.sixR label{font-size:11.5px;}
+.right{display:flex;flex-direction:column;gap:24px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.stat{background:var(--panel);padding:18px 16px;}
+.stat .label{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.05em;margin-bottom:8px;}
+.stat .v{font-family:var(--serif);font-size:28px;font-style:italic;}
+.stat .v.good{color:var(--green);} .stat .v.warn{color:var(--amber);} .stat .v.bad{color:var(--red-deep);}
+.chart-wrap{background:var(--panel);border:1px solid var(--rule);padding:22px;}
+.chart-wrap h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 4px;}
+.chart-wrap .note{font-size:12px;color:var(--ink-soft);margin:0 0 16px;}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:980px){.split{grid-template-columns:1fr;}}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th,td{padding:8px 6px;border-bottom:1px solid var(--rule);text-align:right;}
+th:first-child,td:first-child{text-align:left;}
+th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);}
+footer{max-width:1180px;margin:0 auto;padding:0 28px 60px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+@media(max-width:980px){main{grid-template-columns:1fr;} .stats{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Strategy Lab</a>
+<header>
+  <p class="eyebrow">Simulator 02 — UBS Card Center AG · Head Cloud Center of Excellence</p>
+  <h1>Cloud Migration &amp; FinOps Transformation</h1>
+  <p class="lede">Set the 6R migration mix for the card processing estate and the FinOps optimisation levers your Platform Engineering function will run. The model projects a 3-year Azure TCO against the legacy do-nothing baseline, with NPV and break-even.</p>
+</header>
+
+<main>
+  <div class="panel">
+    <h3>Estate &amp; Baseline</h3>
+    <div class="ctrl">
+      <label>Legacy Annual Run Cost (CHF M) <span class="val" id="vBase">18.0</span></label>
+      <div class="sub">Current on-prem / mainframe-adjacent card processing run cost.</div>
+      <input type="range" id="base" min="6" max="40" step="0.5" value="18">
+    </div>
+    <div class="ctrl">
+      <label>Estate Size (workloads) <span class="val" id="vSize">140</span></label>
+      <div class="sub">Applications &amp; services in scope for the migration programme.</div>
+      <input type="range" id="size" min="30" max="400" step="5" value="140">
+    </div>
+
+    <div class="section-title">6R Migration Mix (must total 100%)</div>
+    <div class="sixR">
+      <div class="ctrl"><label>Rehost <span class="val" id="vRehost">20%</span></label><input type="range" id="rehost" min="0" max="100" value="20"></div>
+      <div class="ctrl"><label>Replatform <span class="val" id="vReplat">30%</span></label><input type="range" id="replat" min="0" max="100" value="30"></div>
+      <div class="ctrl"><label>Refactor <span class="val" id="vRefac">25%</span></label><input type="range" id="refac" min="0" max="100" value="25"></div>
+      <div class="ctrl"><label>Repurchase (SaaS) <span class="val" id="vRepur">10%</span></label><input type="range" id="repur" min="0" max="100" value="10"></div>
+      <div class="ctrl"><label>Retain <span class="val" id="vRetain">10%</span></label><input type="range" id="retain" min="0" max="100" value="10"></div>
+      <div class="ctrl"><label>Retire <span class="val" id="vRetire">5%</span></label><input type="range" id="retire" min="0" max="100" value="5"></div>
+    </div>
+
+    <div class="section-title">FinOps Levers</div>
+    <div class="ctrl">
+      <label>Reserved Instance / Savings Plan Coverage <span class="val" id="vRI">40%</span></label>
+      <input type="range" id="ri" min="0" max="90" value="40">
+    </div>
+    <div class="ctrl">
+      <label>Autoscaling &amp; Rightsizing Maturity <span class="val" id="vAuto">Medium</span></label>
+      <input type="range" id="auto" min="1" max="3" value="2">
+    </div>
+    <div class="ctrl">
+      <label>Kubernetes / Container Density <span class="val" id="vK8s">Medium</span></label>
+      <input type="range" id="k8s" min="1" max="3" value="2">
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="stats">
+      <div class="stat"><div class="label">3-Yr Azure TCO</div><div class="v" id="sTCO">—</div></div>
+      <div class="stat"><div class="label">3-Yr Savings vs Legacy</div><div class="v" id="sSave">—</div></div>
+      <div class="stat"><div class="label">NPV (3yr, 8% disc.)</div><div class="v" id="sNPV">—</div></div>
+      <div class="stat"><div class="label">Break-Even</div><div class="v" id="sBreak">—</div></div>
+    </div>
+
+    <div class="chart-wrap">
+      <h3>3-Year Cumulative Cost — Azure vs. Legacy Baseline</h3>
+      <p class="note">Includes one-off migration cost (front-loaded Y1) against avoided legacy run cost.</p>
+      <canvas id="tcoChart"></canvas>
+    </div>
+
+    <div class="split">
+      <div class="chart-wrap">
+        <h3>Year-3 Cost Breakdown</h3>
+        <canvas id="breakdownChart"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <h3>ROI Sensitivity</h3>
+        <p class="note">3-yr NPV across ±30% swing in key assumptions, holding others at current setting.</p>
+        <canvas id="sensChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h3>Migration Cost &amp; Risk by 6R Pattern</h3>
+      <table>
+        <thead><tr><th>Pattern</th><th>Mix</th><th>Rel. Cost/Workload</th><th>Time-to-Migrate</th><th>Cloud-Native Gain</th></tr></thead>
+        <tbody id="rTable"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<footer>MODEL NOTE — illustrative FinOps/TCO modelling for strategic discussion; not UBS-disclosed cost data.</footer>
+
+<script>
+const $ = id=>document.getElementById(id);
+const rKeys = ['rehost','replat','refac','repur','retain','retire'];
+const rLabels = {rehost:'vRehost',replat:'vReplat',refac:'vRefac',repur:'vRepur',retain:'vRetain',retire:'vRetire'};
+const rMeta = {
+  rehost:{cost:0.8, time:'1-2 mo', gain:'Low', name:'Rehost (lift-and-shift)'},
+  replat:{cost:1.3, time:'3-5 mo', gain:'Medium', name:'Replatform (PaaS-fit)'},
+  refac:{cost:2.2, time:'6-12 mo', gain:'High', name:'Refactor (cloud-native)'},
+  repur:{cost:1.0, time:'2-4 mo', gain:'Medium', name:'Repurchase (SaaS)'},
+  retain:{cost:0.1, time:'n/a', gain:'None', name:'Retain (on-prem)'},
+  retire:{cost:0.0, time:'n/a', gain:'n/a', name:'Retire'},
+};
+
+function normalizeR(){
+  let vals = rKeys.map(k=>+$(k).value);
+  let total = vals.reduce((a,b)=>a+b,0) || 1;
+  rKeys.forEach((k,i)=>{ $(rLabels[k]).textContent = Math.round(vals[i]/total*100)+'%'; });
+  return rKeys.map((k,i)=>vals[i]/total);
+}
+
+let tcoChart, breakdownChart, sensChart;
+function buildCharts(){
+  tcoChart = new Chart($('tcoChart').getContext('2d'),{
+    type:'line',
+    data:{labels:['Y0','Y1','Y2','Y3'], datasets:[
+      {label:'Azure (cumulative)', data:[], borderColor:'#EC0016', backgroundColor:'#EC001622', fill:true, tension:.25, borderWidth:2},
+      {label:'Legacy baseline (cumulative)', data:[], borderColor:'#0A1628', backgroundColor:'#0A162811', fill:true, tension:.25, borderWidth:2, borderDash:[5,3]},
+    ]},
+    options:{responsive:true, plugins:{legend:{position:'bottom'}}, scales:{y:{title:{display:true,text:'CHF M, cumulative'}}}}
+  });
+  breakdownChart = new Chart($('breakdownChart').getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['Compute','Storage','Network','Security/Compliance tooling','Migration amortised','FinOps savings (RI/Autoscale)'],
+      datasets:[{data:[1,1,1,1,1,1], backgroundColor:['#EC0016','#0A1628','#B8860B','#33415c','#A2000F','#1F7A4D']}]},
+    options:{responsive:true, plugins:{legend:{position:'bottom', labels:{boxWidth:10,font:{size:10}}}}}
+  });
+  sensChart = new Chart($('sensChart').getContext('2d'),{
+    type:'bar',
+    data:{labels:['Migration cost','RI coverage','Autoscale maturity','Legacy base cost','Estate size'], datasets:[
+      {label:'-30% / less mature', data:[], backgroundColor:'#33415c'},
+      {label:'+30% / more mature', data:[], backgroundColor:'#EC0016'},
+    ]},
+    options:{indexAxis:'y', responsive:true, plugins:{legend:{position:'bottom'}}, scales:{x:{title:{display:true,text:'3-yr NPV, CHF M'}}}}
+  });
+}
+
+function tcoModel(baseCost, sizeFactor, mix, ri, auto, k8s){
+  // weighted migration cost per workload & cloud-native opex reduction
+  let migCostFactor=0, opexReduction=0;
+  rKeys.forEach((k,i)=>{
+    migCostFactor += mix[i]*rMeta[k].cost;
+    const gainMap = {Low:0.05, Medium:0.18, High:0.35, None:0, 'n/a':0};
+    opexReduction += mix[i]*gainMap[rMeta[k].gain];
+  });
+  const autoFactor = [0,0.05,0.13,0.22][auto];
+  const k8sFactor = [0,0.04,0.10,0.18][k8s];
+  const riFactor = (ri/100)*0.22;
+
+  const migrationCostY1 = baseCost * 0.45 * migCostFactor * (sizeFactor); // one-off, front-loaded
+  const azureOpexBase = baseCost * 0.78; // azure run cost before optimisation, slightly < legacy due to elasticity
+  const totalReduction = Math.min(0.62, opexReduction + autoFactor + k8sFactor + riFactor);
+  const azureOpexOptimised = azureOpexBase * (1-totalReduction);
+
+  const azureY = [0, migrationCostY1 + azureOpexOptimised*0.6, azureOpexOptimised, azureOpexOptimised*0.97];
+  const legacyY = [0, baseCost, baseCost*1.03, baseCost*1.06]; // legacy slight cost creep
+
+  const cumAzure = []; const cumLegacy = [];
+  let a=0,l=0;
+  azureY.forEach(v=>{a+=v; cumAzure.push(a);});
+  legacyY.forEach(v=>{l+=v; cumLegacy.push(l);});
+
+  return {cumAzure, cumLegacy, migrationCostY1, azureOpexOptimised, totalReduction};
+}
+
+function npv(cumAzure, cumLegacy, rate){
+  // discount yearly net savings (legacy-azure) at index 1..3
+  let val = 0;
+  for(let y=1;y<=3;y++){
+    const netSaving = (cumLegacy[y]-cumLegacy[y-1]) - (cumAzure[y]-cumAzure[y-1]);
+    val += netSaving / Math.pow(1+rate, y);
+  }
+  return val;
+}
+
+function compute(){
+  const mix = normalizeR();
+  const baseCost = +$('base').value; $('vBase').textContent = baseCost.toFixed(1);
+  const size = +$('size').value; $('vSize').textContent = size;
+  const sizeFactor = Math.max(0.6, Math.min(1.6, size/140));
+  const ri = +$('ri').value; $('vRI').textContent = ri+'%';
+  const auto = +$('auto').value; $('vAuto').textContent = ['','Low','Medium','High'][auto];
+  const k8s = +$('k8s').value; $('vK8s').textContent = ['','Low','Medium','High'][k8s];
+
+  const model = tcoModel(baseCost, sizeFactor, mix, ri, auto, k8s);
+  tcoChart.data.datasets[0].data = model.cumAzure.map(v=>+v.toFixed(2));
+  tcoChart.data.datasets[1].data = model.cumLegacy.map(v=>+v.toFixed(2));
+  tcoChart.update('none');
+
+  const tco3 = model.cumAzure[3];
+  const legacy3 = model.cumLegacy[3];
+  const savings = legacy3 - tco3;
+  $('sTCO').textContent = 'CHF '+tco3.toFixed(1)+'M';
+  $('sSave').textContent = (savings>=0?'+':'')+'CHF '+savings.toFixed(1)+'M';
+  $('sSave').className = 'v ' + (savings>0?'good':'bad');
+
+  const npvVal = npv(model.cumAzure, model.cumLegacy, 0.08);
+  $('sNPV').textContent = 'CHF '+npvVal.toFixed(1)+'M';
+  $('sNPV').className = 'v ' + (npvVal>0?'good':'bad');
+
+  // break-even: first year cumAzure <= cumLegacy after year0
+  let breakEven = '>3 yr';
+  for(let y=1;y<=3;y++){ if(model.cumAzure[y] <= model.cumLegacy[y]){ breakEven = 'Year '+y; break; } }
+  $('sBreak').textContent = breakEven;
+  $('sBreak').className = 'v ' + (breakEven!=='>3 yr' ? 'good':'warn');
+
+  // breakdown doughnut (illustrative split of year3 azure opex)
+  const compute_ = model.azureOpexOptimised*0.42;
+  const storage = model.azureOpexOptimised*0.16;
+  const network = model.azureOpexOptimised*0.10;
+  const sec = model.azureOpexOptimised*0.14;
+  const migAmort = model.migrationCostY1/3;
+  const finopsSave = baseCost*0.78*model.totalReduction;
+  breakdownChart.data.datasets[0].data = [compute_,storage,network,sec,migAmort,finopsSave].map(v=>+v.toFixed(2));
+  breakdownChart.update('none');
+
+  // sensitivity
+  function npvWith(overrides){
+    const m = tcoModel(
+      overrides.baseCost ?? baseCost,
+      overrides.sizeFactor ?? sizeFactor,
+      mix, overrides.ri ?? ri, overrides.auto ?? auto, overrides.k8s ?? k8s
+    );
+    return npv(m.cumAzure, m.cumLegacy, 0.08);
+  }
+  const sensRows = [
+    {lo: npvWith({}), hi: npvWith({})}, // placeholder, replaced below
+  ];
+  const labels = ['Migration cost','RI coverage','Autoscale maturity','Legacy base cost','Estate size'];
+  const loVals = [
+    (()=>{ // migration cost -30%: approximate by reducing baseCost factor used for migration only -> simulate via temp baseCost down then up? simplistic: vary baseCost slightly as proxy
+      const m = tcoModel(baseCost, sizeFactor, mix, ri, auto, k8s); // can't isolate cleanly; approximate via 0.7x migration using custom calc
+      return null;
+    })(),
+  ];
+  // simpler direct sensitivity: recompute with adjusted single params
+  const sens = [
+    {label:'Migration cost', lo: npvAdjustMig(0.7), hi: npvAdjustMig(1.3)},
+    {label:'RI coverage', lo: npvWith({ri: Math.max(0,ri*0.7)}), hi: npvWith({ri: Math.min(90,ri*1.3)})},
+    {label:'Autoscale maturity', lo: npvWith({auto: Math.max(1,auto-1)}), hi: npvWith({auto: Math.min(3,auto+1)})},
+    {label:'Legacy base cost', lo: npvWith({baseCost: baseCost*0.7}), hi: npvWith({baseCost: baseCost*1.3})},
+    {label:'Estate size', lo: npvWith({sizeFactor: sizeFactor*0.7}), hi: npvWith({sizeFactor: sizeFactor*1.3})},
+  ];
+  function npvAdjustMig(factor){
+    const m = tcoModel(baseCost, sizeFactor, mix, ri, auto, k8s);
+    const azure = [0, m.migrationCostY1*factor + m.azureOpexOptimised*0.6, m.azureOpexOptimised, m.azureOpexOptimised*0.97];
+    const legacy = model.cumLegacy;
+    let cumA=0; const cA=[];
+    azure.forEach(v=>{cumA+=v;cA.push(cumA);});
+    return npv(cA, legacy, 0.08);
+  }
+  sensChart.data.datasets[0].data = sens.map(s=>+s.lo.toFixed(1));
+  sensChart.data.datasets[1].data = sens.map(s=>+s.hi.toFixed(1));
+  sensChart.data.labels = sens.map(s=>s.label);
+  sensChart.update('none');
+
+  // 6R table
+  $('rTable').innerHTML = rKeys.map((k,i)=>{
+    const m = rMeta[k];
+    return `<tr><td>${m.name}</td><td>${Math.round(mix[i]*100)}%</td><td>${m.cost.toFixed(1)}x</td><td>${m.time}</td><td>${m.gain}</td></tr>`;
+  }).join('');
+}
+
+rKeys.concat(['base','size','ri','auto','k8s']).forEach(id=>$(id).addEventListener('input', compute));
+buildCharts();
+compute();
+</script>
+</body>
+</html>
