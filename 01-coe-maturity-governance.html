@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud CoE Maturity &amp; Governance Simulator — UBS Card Center AG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0A1628; --ink-soft:#33415c; --paper:#F5F4F1; --panel:#FFFFFF; --rule:#D8D5CC;
+  --red:#EC0016; --red-deep:#A2000F; --green:#1F7A4D; --amber:#B8860B;
+  --mono:'IBM Plex Mono','Courier New',monospace; --serif:'Iowan Old Style','Georgia',serif; --sans:'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);}
+a.back{position:fixed;top:18px;left:18px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-decoration:none;z-index:50;background:var(--paper);padding:6px 10px;border:1px solid var(--rule);}
+a.back:hover{color:var(--red);}
+header{max-width:1180px;margin:0 auto;padding:70px 28px 28px;border-bottom:1px solid var(--rule);}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-deep);margin:0 0 12px;}
+h1{font-family:var(--serif);font-size:38px;font-weight:400;margin:0 0 12px;letter-spacing:-.01em;}
+.lede{font-size:15.5px;color:var(--ink-soft);max-width:760px;line-height:1.6;margin:0;}
+main{max-width:1180px;margin:0 auto;padding:36px 28px 80px;display:grid;grid-template-columns:340px 1fr;gap:32px;}
+.panel{background:var(--panel);border:1px solid var(--rule);padding:24px;}
+.panel h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:10px;}
+.budget-bar{font-family:var(--mono);font-size:12px;margin-bottom:18px;background:var(--ink);color:#fff;padding:10px 12px;display:flex;justify-content:space-between;}
+.budget-bar .over{color:#FF8A8A;}
+.ctrl{margin-bottom:22px;}
+.ctrl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px;}
+.ctrl label .val{font-family:var(--mono);color:var(--red-deep);font-weight:400;}
+.ctrl .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:6px;line-height:1.4;}
+input[type=range]{width:100%;accent-color:var(--red);}
+.section-title{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.08em;margin:24px 0 10px;border-top:1px dashed var(--rule);padding-top:18px;}
+.right{display:flex;flex-direction:column;gap:24px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.stat{background:var(--panel);padding:18px 16px;}
+.stat .label{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.05em;margin-bottom:8px;}
+.stat .v{font-family:var(--serif);font-size:30px;font-style:italic;}
+.stat .v.good{color:var(--green);}
+.stat .v.warn{color:var(--amber);}
+.stat .v.bad{color:var(--red-deep);}
+.chart-wrap{background:var(--panel);border:1px solid var(--rule);padding:22px;}
+.chart-wrap h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 4px;}
+.chart-wrap .note{font-size:12px;color:var(--ink-soft);margin:0 0 16px;}
+canvas{max-height:280px;}
+.gates{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.gate{background:var(--panel);padding:18px;}
+.gate .name{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;}
+.gate .month{font-family:var(--serif);font-style:italic;font-size:26px;margin-bottom:6px;}
+.gate .status{display:inline-block;font-family:var(--mono);font-size:10px;text-transform:uppercase;padding:3px 8px;letter-spacing:.04em;}
+.status.ready{background:#e4f3ea;color:var(--green);}
+.status.risk{background:#fdf1d8;color:var(--amber);}
+.status.exposed{background:#fbe2e3;color:var(--red-deep);}
+.roadmap{background:var(--panel);border:1px solid var(--rule);padding:22px;}
+.roadmap h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 16px;}
+.role-row{display:grid;grid-template-columns:180px 1fr 60px;gap:12px;align-items:center;margin-bottom:10px;font-size:13px;}
+.role-row .barbg{background:var(--rule);height:14px;position:relative;}
+.role-row .barfg{background:var(--red);height:14px;}
+.role-row .count{font-family:var(--mono);font-size:12px;text-align:right;}
+footer{max-width:1180px;margin:0 auto;padding:0 28px 60px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+@media(max-width:980px){main{grid-template-columns:1fr;} .stats{grid-template-columns:repeat(2,1fr);} .gates{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Strategy Lab</a>
+<header>
+  <p class="eyebrow">Simulator 01 — UBS Card Center AG · Head Cloud Center of Excellence</p>
+  <h1>Cloud CoE Maturity &amp; Governance Simulator</h1>
+  <p class="lede">Allocate a fixed first-year build-out budget across the four CoE capability pillars described in the strategic vision — governance, security, architecture, and platform engineering. The model projects how that allocation moves your PCI-DSS / FINMA / DORA compliance gate readiness and overall CoE maturity.</p>
+</header>
+
+<main>
+  <div class="panel">
+    <h3>Capability Investment Allocation</h3>
+    <div class="budget-bar"><span>FY1 BUDGET ALLOCATED</span><span id="budgetTotal">0%</span></div>
+
+    <div class="ctrl">
+      <label>Governance &amp; Strategy <span class="val" id="vGov">25%</span></label>
+      <div class="sub">Cloud strategy, policy-as-code, architecture review board, group alignment.</div>
+      <input type="range" id="gov" min="5" max="60" value="25">
+    </div>
+    <div class="ctrl">
+      <label>Security &amp; Compliance <span class="val" id="vSec">30%</span></label>
+      <div class="sub">Cloud security specialists, Zero Trust, PCI-DSS / FINMA / DORA control evidence.</div>
+      <input type="range" id="sec" min="5" max="60" value="30">
+    </div>
+    <div class="ctrl">
+      <label>Cloud Architecture <span class="val" id="vArch">25%</span></label>
+      <div class="sub">Azure landing zones, SaaS/PaaS integration patterns, reference architectures.</div>
+      <input type="range" id="arch" min="5" max="60" value="25">
+    </div>
+    <div class="ctrl">
+      <label>Platform Engineering <span class="val" id="vEng">20%</span></label>
+      <div class="sub">Self-service IaC platforms, CI/CD, FinOps tooling, golden pipelines.</div>
+      <input type="range" id="eng" min="5" max="60" value="20">
+    </div>
+
+    <div class="section-title">Organisational Parameters</div>
+    <div class="ctrl">
+      <label>CoE Headcount <span class="val" id="vHC">12</span></label>
+      <div class="sub">Total cloud architects, security specialists &amp; engineers in the team.</div>
+      <input type="range" id="hc" min="4" max="30" value="12">
+    </div>
+    <div class="ctrl">
+      <label>Agile-at-Scale Maturity <span class="val" id="vSafe">Medium</span></label>
+      <div class="sub">SAFe/LeSS coordination across platform teams — affects delivery velocity.</div>
+      <input type="range" id="safe" min="1" max="3" value="2">
+    </div>
+    <div class="ctrl">
+      <label>Legacy Estate Complexity <span class="val" id="vLeg">High</span></label>
+      <div class="sub">Monolithic card processing footprint to be modernised. Higher = slower gates.</div>
+      <input type="range" id="leg" min="1" max="3" value="3">
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="stats">
+      <div class="stat"><div class="label">CoE Maturity Index</div><div class="v" id="sMaturity">—</div></div>
+      <div class="stat"><div class="label">Audit Readiness</div><div class="v" id="sAudit">—</div></div>
+      <div class="stat"><div class="label">Time to Steady-State</div><div class="v" id="sTime">—</div></div>
+      <div class="stat"><div class="label">Governance Debt Risk</div><div class="v" id="sDebt">—</div></div>
+    </div>
+
+    <div class="chart-wrap">
+      <h3>Compliance Gate Readiness Timeline</h3>
+      <p class="note">Probability of being audit-ready by month, for each regulatory gate, given current allocation.</p>
+      <canvas id="gateChart"></canvas>
+    </div>
+
+    <div class="gates" id="gateCards"></div>
+
+    <div class="chart-wrap">
+      <h3>CoE Maturity Curve (24 Months)</h3>
+      <p class="note">Governance &amp; Operations maturity, modelled against the vision's five-pillar CoE framework.</p>
+      <canvas id="maturityChart"></canvas>
+    </div>
+
+    <div class="roadmap">
+      <h3>Indicative Team Capability Roadmap</h3>
+      <div id="roleRows"></div>
+    </div>
+  </div>
+</main>
+<footer>MODEL NOTE — illustrative weighting only; intended to make trade-offs visible for interview discussion, not to represent UBS-disclosed targets.</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const sliders = ['gov','sec','arch','eng'];
+const labelMap = {gov:'vGov',sec:'vSec',arch:'vArch',eng:'vEng'};
+
+function normalize(){
+  let vals = sliders.map(s=>+$(s).value);
+  let total = vals.reduce((a,b)=>a+b,0);
+  sliders.forEach((s,i)=>{
+    $(labelMap[s]).textContent = Math.round(vals[i]/total*100)+'%';
+  });
+  $('budgetTotal').textContent = '100% (normalised)';
+  return sliders.map((s,i)=>vals[i]/total);
+}
+
+const safeLabels = {1:'Low',2:'Medium',3:'High'};
+const legLabels = {1:'Low',2:'Medium',3:'High'};
+
+let gateChart, maturityChart;
+
+function buildCharts(){
+  const ctx1 = $('gateChart').getContext('2d');
+  gateChart = new Chart(ctx1,{
+    type:'line',
+    data:{labels:[], datasets:[
+      {label:'PCI-DSS 4.0', data:[], borderColor:'#EC0016', backgroundColor:'#EC001622', tension:.3, pointRadius:0, borderWidth:2},
+      {label:'FINMA Circ. 2018/3', data:[], borderColor:'#0A1628', backgroundColor:'#0A162822', tension:.3, pointRadius:0, borderWidth:2},
+      {label:'DORA RTS', data:[], borderColor:'#B8860B', backgroundColor:'#B8860B22', tension:.3, pointRadius:0, borderWidth:2},
+    ]},
+    options:{responsive:true, interaction:{mode:'index',intersect:false},
+      scales:{y:{min:0,max:100,title:{display:true,text:'Readiness %'}}, x:{title:{display:true,text:'Month'}}},
+      plugins:{legend:{position:'bottom'}}}
+  });
+  const ctx2 = $('maturityChart').getContext('2d');
+  maturityChart = new Chart(ctx2,{
+    type:'line',
+    data:{labels:[], datasets:[
+      {label:'Governance', data:[], borderColor:'#A2000F', pointRadius:0, borderWidth:2, tension:.3},
+      {label:'Security', data:[], borderColor:'#EC0016', pointRadius:0, borderWidth:2, tension:.3},
+      {label:'Architecture', data:[], borderColor:'#0A1628', pointRadius:0, borderWidth:2, tension:.3},
+      {label:'Platform Engineering', data:[], borderColor:'#B8860B', pointRadius:0, borderWidth:2, tension:.3},
+    ]},
+    options:{responsive:true, interaction:{mode:'index',intersect:false},
+      scales:{y:{min:0,max:100,title:{display:true,text:'Maturity %'}}, x:{title:{display:true,text:'Month'}}},
+      plugins:{legend:{position:'bottom'}}}
+  });
+}
+
+function gateStatus(val){
+  if(val>=85) return {cls:'ready', text:'Audit-ready'};
+  if(val>=55) return {cls:'risk', text:'At risk'};
+  return {cls:'exposed', text:'Exposed'};
+}
+
+function compute(){
+  const [wGov,wSec,wArch,wEng] = normalize();
+  const hc = +$('hc').value; $('vHC').textContent = hc;
+  const safe = +$('safe').value; $('vSafe').textContent = safeLabels[safe];
+  const leg = +$('leg').value; $('vLeg').textContent = legLabels[leg];
+
+  // headcount & cadence multipliers
+  const hcFactor = Math.min(1.3, 0.55 + hc/30);
+  const cadenceFactor = 0.75 + safe*0.15; // 1=low coordination .. 3=high
+  const legacyDrag = 1.25 - leg*0.18; // higher legacy complexity slows things
+
+  const months = 24;
+  const labels = [];
+  const govCurve=[], secCurve=[], archCurve=[], engCurve=[];
+  const pciCurve=[], finmaCurve=[], doraCurve=[];
+
+  for(let m=0;m<=months;m++){
+    labels.push('M'+m);
+    const t = m;
+    const sCurve = w => 100/(1+Math.exp(-( (t - (14 - w*16)) /3 )));
+    govCurve.push(Math.min(100, sCurve(wGov)*hcFactor*cadenceFactor));
+    secCurve.push(Math.min(100, sCurve(wSec)*hcFactor*cadenceFactor*legacyDrag));
+    archCurve.push(Math.min(100, sCurve(wArch)*hcFactor*cadenceFactor*legacyDrag));
+    engCurve.push(Math.min(100, sCurve(wEng)*hcFactor*cadenceFactor));
+
+    // compliance gates blend security + governance + architecture, with legacy drag
+    pciCurve.push(Math.min(100,(secCurve[m]*0.55+archCurve[m]*0.25+govCurve[m]*0.2)));
+    finmaCurve.push(Math.min(100,(govCurve[m]*0.5+secCurve[m]*0.35+archCurve[m]*0.15)));
+    doraCurve.push(Math.min(100,(secCurve[m]*0.4+engCurve[m]*0.35+govCurve[m]*0.25)));
+  }
+
+  gateChart.data.labels = labels;
+  gateChart.data.datasets[0].data = pciCurve;
+  gateChart.data.datasets[1].data = finmaCurve;
+  gateChart.data.datasets[2].data = doraCurve;
+  gateChart.update('none');
+
+  maturityChart.data.labels = labels;
+  maturityChart.data.datasets[0].data = govCurve;
+  maturityChart.data.datasets[1].data = secCurve;
+  maturityChart.data.datasets[2].data = archCurve;
+  maturityChart.data.datasets[3].data = engCurve;
+  maturityChart.update('none');
+
+  // summary stats at month 12 and 24
+  const m12 = 12;
+  const overallM24 = (govCurve[24]+secCurve[24]+archCurve[24]+engCurve[24])/4;
+  const overallM12 = (govCurve[12]+secCurve[12]+archCurve[12]+engCurve[12])/4;
+  $('sMaturity').textContent = Math.round(overallM24)+'%';
+  $('sMaturity').className = 'v ' + (overallM24>75?'good':overallM24>50?'warn':'bad');
+
+  const auditAvg = (pciCurve[12]+finmaCurve[12]+doraCurve[12])/3;
+  $('sAudit').textContent = Math.round(auditAvg)+'%';
+  $('sAudit').className = 'v ' + (auditAvg>=85?'good':auditAvg>=55?'warn':'bad');
+
+  // time to steady state: first month overall maturity crosses 80%
+  let tss = '>24m';
+  for(let m=0;m<=24;m++){
+    const o = (govCurve[m]+secCurve[m]+archCurve[m]+engCurve[m])/4;
+    if(o>=80){tss = m+' mo'; break;}
+  }
+  $('sTime').textContent = tss;
+  $('sTime').className = 'v ' + (tss!=='>24m' && parseInt(tss)<=18 ? 'good':'warn');
+
+  const debtRisk = Math.max(0, 100 - (wSec*100*1.6) - (wGov*100*0.6));
+  $('sDebt').textContent = debtRisk>55?'High':debtRisk>30?'Medium':'Low';
+  $('sDebt').className = 'v ' + (debtRisk>55?'bad':debtRisk>30?'warn':'good');
+
+  // gate cards
+  const gates = [
+    {name:'PCI-DSS 4.0', val: pciCurve[12], curve: pciCurve},
+    {name:'FINMA Circ. 2018/3', val: finmaCurve[12], curve: finmaCurve},
+    {name:'DORA RTS', val: doraCurve[12], curve: doraCurve},
+  ];
+  $('gateCards').innerHTML = gates.map(g=>{
+    let readyMonth='>24m';
+    for(let m=0;m<=24;m++){ if(g.curve[m]>=85){readyMonth=m+' mo';break;} }
+    const st = gateStatus(g.val);
+    return `<div class="gate"><div class="name">${g.name}</div><div class="month">${readyMonth}</div>
+      <span class="status ${st.cls}">${st.text} · M12</span></div>`;
+  }).join('');
+
+  // team roadmap rows (rough split based on weights & headcount)
+  const roles = [
+    {name:'Cloud Architects', w: wArch, base: 0.3},
+    {name:'Cloud Security Specialists', w: wSec, base: 0.3},
+    {name:'Cloud Engineers', w: wEng, base: 0.3},
+    {name:'Governance / FinOps Lead', w: wGov, base: 0.1},
+  ];
+  const totalW = roles.reduce((a,r)=>a+r.w,0);
+  $('roleRows').innerHTML = roles.map(r=>{
+    const count = Math.max(1, Math.round(hc * (r.w/totalW)));
+    const pct = Math.min(100, count/hc*100);
+    return `<div class="role-row"><div>${r.name}</div>
+      <div class="barbg"><div class="barfg" style="width:${pct}%"></div></div>
+      <div class="count">${count} FTE</div></div>`;
+  }).join('');
+}
+
+sliders.concat(['hc','safe','leg']).forEach(id=>{
+  $(id).addEventListener('input', compute);
+});
+
+buildCharts();
+compute();
+</script>
+</body>
+</html>
