@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emerging Payments &amp; Competitive Positioning Simulator — UBS Card Center AG</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+:root{
+  --ink:#0A1628; --ink-soft:#33415c; --paper:#F5F4F1; --panel:#FFFFFF; --rule:#D8D5CC;
+  --red:#EC0016; --red-deep:#A2000F; --green:#1F7A4D; --amber:#B8860B;
+  --mono:'IBM Plex Mono','Courier New',monospace; --serif:'Iowan Old Style','Georgia',serif; --sans:'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);}
+a.back{position:fixed;top:18px;left:18px;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);text-decoration:none;z-index:50;background:var(--paper);padding:6px 10px;border:1px solid var(--rule);}
+a.back:hover{color:var(--red);}
+header{max-width:1180px;margin:0 auto;padding:70px 28px 28px;border-bottom:1px solid var(--rule);}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--red-deep);margin:0 0 12px;}
+h1{font-family:var(--serif);font-size:36px;font-weight:400;margin:0 0 12px;}
+.lede{font-size:15.5px;color:var(--ink-soft);max-width:780px;line-height:1.6;margin:0;}
+main{max-width:1180px;margin:0 auto;padding:36px 28px 80px;display:grid;grid-template-columns:340px 1fr;gap:32px;}
+.panel{background:var(--panel);border:1px solid var(--rule);padding:24px;}
+.panel h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 18px;border-bottom:1px solid var(--rule);padding-bottom:10px;}
+.ctrl{margin-bottom:20px;}
+.ctrl label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px;}
+.ctrl label .val{font-family:var(--mono);color:var(--red-deep);font-weight:400;}
+.ctrl .sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:6px;line-height:1.4;}
+input[type=range]{width:100%;accent-color:var(--red);}
+.section-title{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.08em;margin:22px 0 10px;border-top:1px dashed var(--rule);padding-top:18px;}
+.right{display:flex;flex-direction:column;gap:24px;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.stat{background:var(--panel);padding:18px 16px;}
+.stat .label{font-family:var(--mono);font-size:10px;text-transform:uppercase;color:var(--ink-soft);letter-spacing:.05em;margin-bottom:8px;}
+.stat .v{font-family:var(--serif);font-size:28px;font-style:italic;}
+.stat .v.good{color:var(--green);} .stat .v.warn{color:var(--amber);} .stat .v.bad{color:var(--red-deep);}
+.chart-wrap{background:var(--panel);border:1px solid var(--rule);padding:22px;}
+.chart-wrap h3{font-family:var(--mono);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--red-deep);margin:0 0 4px;}
+.chart-wrap .note{font-size:12px;color:var(--ink-soft);margin:0 0 16px;}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:980px){.split{grid-template-columns:1fr;}}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th,td{padding:8px 6px;border-bottom:1px solid var(--rule);text-align:right;}
+th:first-child,td:first-child{text-align:left;}
+th{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;color:var(--ink-soft);}
+.rail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.rail{background:var(--panel);padding:16px;}
+.rail .name{font-family:var(--mono);font-size:11px;text-transform:uppercase;margin-bottom:8px;}
+.rail .bar{height:8px;background:var(--rule);margin-bottom:4px;}
+.rail .fill{height:8px;background:var(--red);}
+.rail .pct{font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+footer{max-width:1180px;margin:0 auto;padding:0 28px 60px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);}
+@media(max-width:980px){main{grid-template-columns:1fr;} .stats{grid-template-columns:repeat(2,1fr);} .rail-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<a class="back" href="index.html">← Strategy Lab</a>
+<header>
+  <p class="eyebrow">Simulator 03 — UBS Card Center AG · Head Cloud Center of Excellence</p>
+  <h1>Emerging Payments &amp; Competitive Positioning</h1>
+  <p class="lede">Trade off investment in cloud-native innovation velocity — open banking APIs, digital wallets, BNPL, CBDC/tokenised rails — against legacy-system stability, and benchmark resulting time-to-market against neobanks, processor-fintechs and incumbent banks.</p>
+</header>
+
+<main>
+  <div class="panel">
+    <h3>Innovation Investment Allocation</h3>
+    <div class="ctrl">
+      <label>Cloud-Native Innovation Spend <span class="val" id="vInnov">35%</span></label>
+      <div class="sub">Share of discretionary IT spend on new cloud-native capability vs. legacy stabilisation.</div>
+      <input type="range" id="innov" min="5" max="70" value="35">
+    </div>
+    <div class="ctrl">
+      <label>API-First / Open Banking Maturity <span class="val" id="vApi">Medium</span></label>
+      <div class="sub">API gateway, service mesh &amp; partner sandbox maturity (OAuth2/mTLS).</div>
+      <input type="range" id="api" min="1" max="3" value="2">
+    </div>
+    <div class="ctrl">
+      <label>Platform Team Autonomy <span class="val" id="vAuton">Medium</span></label>
+      <div class="sub">Product Operating Model — decentralised, end-to-end-owning platform teams.</div>
+      <input type="range" id="auton" min="1" max="3" value="2">
+    </div>
+
+    <div class="section-title">Emerging Rails Focus</div>
+    <div class="ctrl">
+      <label>Digital Wallets / BNPL <span class="val" id="vWallet">Medium</span></label>
+      <input type="range" id="wallet" min="1" max="3" value="2">
+    </div>
+    <div class="ctrl">
+      <label>CBDC / Tokenised Settlement <span class="val" id="vCbdc">Low</span></label>
+      <div class="sub">Digital euro, Project Helvetia, ISO 20022 interoperability.</div>
+      <input type="range" id="cbdc" min="1" max="3" value="1">
+    </div>
+    <div class="ctrl">
+      <label>AI Fraud / Real-Time Monitoring <span class="val" id="vFraud">Medium</span></label>
+      <input type="range" id="fraud" min="1" max="3" value="2">
+    </div>
+
+    <div class="section-title">Market Context</div>
+    <div class="ctrl">
+      <label>Fintech Competitive Pressure <span class="val" id="vPressure">High</span></label>
+      <div class="sub">Pace of neobank / processor-fintech feature releases in your segment.</div>
+      <input type="range" id="pressure" min="1" max="3" value="3">
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="stats">
+      <div class="stat"><div class="label">Innovation Velocity Index</div><div class="v" id="sVel">—</div></div>
+      <div class="stat"><div class="label">Legacy Stability Index</div><div class="v" id="sStab">—</div></div>
+      <div class="stat"><div class="label">Avg. Time-to-Market</div><div class="v" id="sTTM">—</div></div>
+      <div class="stat"><div class="label">Competitive Gap</div><div class="v" id="sGap">—</div></div>
+    </div>
+
+    <div class="chart-wrap">
+      <h3>Time-to-Market: UBS Card Center vs. Market Archetypes</h3>
+      <p class="note">Months to ship a new payment feature, for each competitor archetype, at current settings.</p>
+      <canvas id="ttmChart"></canvas>
+    </div>
+
+    <div class="split">
+      <div class="chart-wrap">
+        <h3>Velocity vs. Stability Frontier</h3>
+        <p class="note">Where current allocation sits on the trade-off curve.</p>
+        <canvas id="frontierChart"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <h3>36-Month Capability Build-Out</h3>
+        <canvas id="capChart"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <h3>Emerging Rail Readiness</h3>
+      <div class="rail-grid" id="railGrid"></div>
+    </div>
+  </div>
+</main>
+<footer>MODEL NOTE — illustrative competitive-positioning model for strategic discussion; not a market research forecast.</footer>
+
+<script>
+const $ = id=>document.getElementById(id);
+const lv = {1:'Low',2:'Medium',3:'High'};
+
+let ttmChart, frontierChart, capChart;
+function buildCharts(){
+  ttmChart = new Chart($('ttmChart').getContext('2d'),{
+    type:'bar',
+    data:{labels:['UBS Card Center (modelled)','Incumbent Bank (avg.)','Processor-Fintech','Neobank'],
+      datasets:[{label:'Months to ship new feature', data:[0,0,0,0], backgroundColor:['#EC0016','#33415c','#B8860B','#0A1628']}]},
+    options:{responsive:true, plugins:{legend:{display:false}}, scales:{y:{title:{display:true,text:'Months'}, beginAtZero:true}}}
+  });
+  frontierChart = new Chart($('frontierChart').getContext('2d'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Efficient frontier', data:[], showLine:true, borderColor:'#D8D5CC', backgroundColor:'#D8D5CC', pointRadius:0, borderWidth:2},
+      {label:'Current position', data:[], backgroundColor:'#EC0016', pointRadius:8, pointHoverRadius:9},
+    ]},
+    options:{responsive:true, scales:{
+      x:{title:{display:true,text:'Innovation Velocity →'}, min:0,max:100},
+      y:{title:{display:true,text:'Legacy Stability →'}, min:0,max:100}
+    }, plugins:{legend:{position:'bottom'}}}
+  });
+  capChart = new Chart($('capChart').getContext('2d'),{
+    type:'line',
+    data:{labels:[], datasets:[
+      {label:'Digital wallets / BNPL', data:[], borderColor:'#EC0016', pointRadius:0, tension:.3, borderWidth:2},
+      {label:'CBDC / tokenised rails', data:[], borderColor:'#B8860B', pointRadius:0, tension:.3, borderWidth:2},
+      {label:'AI fraud / monitoring', data:[], borderColor:'#0A1628', pointRadius:0, tension:.3, borderWidth:2},
+    ]},
+    options:{responsive:true, scales:{y:{min:0,max:100,title:{display:true,text:'Readiness %'}}, x:{title:{display:true,text:'Month'}}}, plugins:{legend:{position:'bottom'}}}
+  });
+}
+
+function compute(){
+  const innov = +$('innov').value; $('vInnov').textContent = innov+'%';
+  const api = +$('api').value; $('vApi').textContent = lv[api];
+  const auton = +$('auton').value; $('vAuton').textContent = lv[auton];
+  const wallet = +$('wallet').value; $('vWallet').textContent = lv[wallet];
+  const cbdc = +$('cbdc').value; $('vCbdc').textContent = lv[cbdc];
+  const fraud = +$('fraud').value; $('vFraud').textContent = lv[fraud];
+  const pressure = +$('pressure').value; $('vPressure').textContent = lv[pressure];
+
+  const velocity = Math.min(100, innov*0.7 + api*12 + auton*10);
+  const stability = Math.max(10, 100 - innov*0.55 + (3-auton)*5 + api*4);
+
+  $('sVel').textContent = Math.round(velocity);
+  $('sVel').className = 'v ' + (velocity>65?'good':velocity>40?'warn':'bad');
+  $('sStab').textContent = Math.round(stability);
+  $('sStab').className = 'v ' + (stability>65?'good':stability>40?'warn':'bad');
+
+  // time to market months: baseline 18mo, reduced by velocity, increased by legacy drag (inverse of api/auton)
+  const ttmUBS = Math.max(2, 18 - velocity*0.14);
+  const ttmIncumbent = 14;
+  const ttmFintech = Math.max(1.5, 6 - pressure*0.5);
+  const ttmNeobank = Math.max(1, 4 - pressure*0.6);
+
+  ttmChart.data.datasets[0].data = [ttmUBS, ttmIncumbent, ttmFintech, ttmNeobank].map(v=>+v.toFixed(1));
+  ttmChart.update('none');
+
+  $('sTTM').textContent = ttmUBS.toFixed(1)+' mo';
+  $('sTTM').className = 'v ' + (ttmUBS<6?'good':ttmUBS<10?'warn':'bad');
+
+  const gap = ttmUBS - ((ttmFintech+ttmNeobank)/2);
+  $('sGap').textContent = (gap>0?'+':'')+gap.toFixed(1)+' mo';
+  $('sGap').className = 'v ' + (gap<2?'good':gap<6?'warn':'bad');
+
+  // frontier curve
+  const frontierPts = [];
+  for(let x=0;x<=100;x+=5){ frontierPts.push({x, y: Math.max(8,100 - x*0.85)}); }
+  frontierChart.data.datasets[0].data = frontierPts;
+  frontierChart.data.datasets[1].data = [{x:velocity, y:stability}];
+  frontierChart.update('none');
+
+  // capability build-out curves over 36 months
+  const months=36; const labels=[]; const wC=[],cC=[],fC=[];
+  for(let m=0;m<=months;m++){
+    labels.push('M'+m);
+    const s = (level, speed) => Math.min(100, 100/(1+Math.exp(-((m-(20-level*5-speed*3))/4))));
+    wC.push(s(wallet, auton));
+    cC.push(s(cbdc, api*0.5));
+    fC.push(s(fraud, auton));
+  }
+  capChart.data.labels = labels;
+  capChart.data.datasets[0].data = wC;
+  capChart.data.datasets[1].data = cC;
+  capChart.data.datasets[2].data = fC;
+  capChart.update('none');
+
+  // rail readiness cards at month 18
+  const rails = [
+    {name:'Digital Wallets / BNPL', val: wC[18]},
+    {name:'CBDC / Tokenised Rails', val: cC[18]},
+    {name:'AI Fraud / Monitoring', val: fC[18]},
+  ];
+  $('railGrid').innerHTML = rails.map(r=>`
+    <div class="rail"><div class="name">${r.name}</div>
+      <div class="bar"><div class="fill" style="width:${Math.round(r.val)}%"></div></div>
+      <div class="pct">${Math.round(r.val)}% ready · M18</div></div>`).join('');
+}
+
+['innov','api','auton','wallet','cbdc','fraud','pressure'].forEach(id=>$(id).addEventListener('input', compute));
+buildCharts();
+compute();
+</script>
+</body>
+</html>
